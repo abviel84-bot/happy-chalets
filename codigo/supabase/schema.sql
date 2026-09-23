@@ -19,11 +19,13 @@ returns boolean
 language sql
 stable
 security definer
-set search_path = public
+set search_path = public, auth
 as $$
   select exists (
-    select 1 from public.admin_users
-    where lower(email) = lower(coalesce(auth.jwt() ->> 'email', ''))
+    select 1
+    from public.admin_users a
+    join auth.users u on lower(trim(u.email)) = lower(trim(a.email))
+    where u.id = auth.uid()
   );
 $$;
 grant execute on function public.is_admin() to anon, authenticated;

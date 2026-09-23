@@ -114,8 +114,15 @@ export async function signIn(email, password) {
   if (!isSupabaseConfigured) return { demo: true };
   const { error } = await supabase.auth.signInWithPassword({ email, password });
   if (error) throw new Error(error.message === "Invalid login credentials" ? "Correo o contraseña incorrectos." : error.message);
-  const ok = await isAdmin();
-  if (!ok) { await supabase.auth.signOut(); throw new Error("Este usuario no tiene permiso de administrador."); }
+  const { data, error: rpcError } = await supabase.rpc("is_admin");
+  if (rpcError) {
+    await supabase.auth.signOut();
+    throw new Error("La base de datos no respondió la verificación de administrador (" + rpcError.message + "). Corre el archivo supabase/arreglo-admin.sql en el SQL Editor.");
+  }
+  if (data !== true) {
+    await supabase.auth.signOut();
+    throw new Error(`El correo ${email} entró bien, pero no está en la tabla admin_users. Agrégalo con el SQL de supabase/arreglo-admin.sql.`);
+  }
   return {};
 }
 export async function signOut() {
