@@ -51,9 +51,9 @@ export const defaultContent = {
 
   hero: {
     mediaType: "image", // "image" | "video"
-    imageUrl: "/facade.webp",
+    imageUrl: `${import.meta.env.BASE_URL}facade.webp`,
     videoUrl: "",
-    posterUrl: "/facade.webp",
+    posterUrl: `${import.meta.env.BASE_URL}facade.webp`,
     kicker: { es: "Guánica · Puerto Rico", en: "Guánica · Puerto Rico" },
     title: { es: "Donde el sur sonríe", en: "Where the south coast smiles" },
     subtitle: {
@@ -189,7 +189,7 @@ export const defaultContent = {
 
 /** Galería de ejemplo cuando no hay Supabase. En producción viene de la tabla `media`. */
 export const defaultMedia = [
-  { id: "demo-1", type: "image", url: "/facade.webp", category: "ext", caption: { es: "Entrada de Happy Chalets", en: "Happy Chalets entrance" }, sort: 0 },
+  { id: "demo-1", type: "image", url: `${import.meta.env.BASE_URL}facade.webp`, category: "ext", caption: { es: "Entrada de Happy Chalets", en: "Happy Chalets entrance" }, sort: 0 },
 ];
 
 /** Fechas ocupadas de ejemplo (relativas a hoy) cuando no hay Supabase. */
