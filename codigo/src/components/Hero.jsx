@@ -74,29 +74,6 @@ export default function Hero() {
           <a href="#chalets" className="btn border-[1.5px] border-white/45 text-white hover:bg-white/10">{ui.seeChalets}</a>
         </div>
 
-        <motion.form
-          onSubmit={submit}
-          aria-label={ui.search.go}
-          initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }}
-          className="mt-2 grid max-w-[860px] grid-cols-2 gap-1.5 rounded-[20px] bg-arena/95 p-2.5 text-tinta shadow-[0_24px_50px_-24px_rgba(0,0,0,.55)] md:grid-cols-[1fr_1fr_1fr_auto]"
-        >
-          <Field label={ui.search.in} htmlFor="q-in">
-            <input id="q-in" type="date" min={toISODate(today())} value={inDate} onChange={(e) => onIn(e.target.value)} className="w-full min-w-0 bg-transparent text-base font-semibold outline-none" />
-          </Field>
-          <Field label={ui.search.out} htmlFor="q-out">
-            <input id="q-out" type="date" min={inDate ? toISODate(addDays(fromISODate(inDate), 1)) : toISODate(addDays(today(), 1))} value={outDate} onChange={(e) => setOut(e.target.value)} className="w-full min-w-0 bg-transparent text-base font-semibold outline-none" />
-          </Field>
-          <Field label={ui.search.guests} htmlFor="q-guests" className="col-span-2 md:col-span-1">
-            <select id="q-guests" value={guests} onChange={(e) => setGuests(Number(e.target.value))} className="w-full min-w-0 bg-transparent text-base font-semibold outline-none">
-              {Array.from({ length: maxGuests }, (_, i) => i + 1).map((n) => (
-                <option key={n} value={n}>{ui.guests(n)}</option>
-              ))}
-            </select>
-          </Field>
-          <button type="submit" className="btn btn-azul col-span-2 min-h-14 md:col-span-1">
-            <Search /> {ui.search.go}
-          </button>
-        </motion.form>
       </div>
     </section>
   );

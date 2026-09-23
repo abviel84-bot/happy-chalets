@@ -118,10 +118,11 @@ drop policy if exists "requests admin borra" on public.booking_requests;
 create policy "requests admin borra" on public.booking_requests for delete using (public.is_admin());
 
 -- ---------- Storage: bucket público "media" ----------
--- file_size_limit en bytes. 5 GB aquí; el límite real lo pone tu plan
--- (Free = 50 MB por archivo. Pro = sube el límite global en Storage → Settings).
+-- file_size_limit en bytes: 50 MB (máximo del plan Free).
+-- En plan Pro: sube el límite global en Storage → Settings y luego corre
+--   update storage.buckets set file_size_limit = 5368709120 where id = 'media';
 insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
-values ('media', 'media', true, 5368709120,
+values ('media', 'media', true, 52428800,
         array['image/jpeg','image/png','image/webp','image/avif','image/gif','video/mp4','video/quicktime','video/webm'])
 on conflict (id) do update
   set public = excluded.public,
@@ -144,4 +145,11 @@ create policy "media admin borra" on storage.objects for delete to authenticated
 -- ---------- Tu usuario administrador ----------
 -- 1) Supabase → Authentication → Users → "Add user" (correo + contraseña, marca "Auto confirm").
 -- 2) Cambia el correo abajo si es otro y corre esta línea:
-insert into public.admin_users (email) values ('happychaletsbh@gmail.com') on conflict do nothing;
+insert into public.admin_users (email) values ('tryhardsolution@gmail.com') on conflict do nothing;
+
+-- Refresca la API para que reconozca las tablas nuevas de inmediato
+notify pgrst, 'reload schema';
+
+-- Revisión: deben salir las 5 tablas
+select table_name from information_schema.tables
+where table_schema = 'public' order by table_name;
