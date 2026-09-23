@@ -1,0 +1,103 @@
+@import "tailwindcss";
+@import "react-day-picker/style.css";
+
+/* ===== Marca Happy Chalets (guía de marca, Fase 1) ===== */
+@theme {
+  --color-azul: #1452A0;
+  --color-azul-d: #0E3F7C;
+  --color-sol: #F5B82E;
+  --color-sol-l: #FFC846;
+  --color-turq: #2BB3B1;
+  --color-tinta: #0F2E3D;
+  --color-arena: #FBF5EA;
+  --color-arena-2: #F3EBDB;
+  --color-atardecer: #E0603F;
+  --color-bosque: #4F6B3A;
+  --color-linea: #E4D9C4;
+  --color-muted: #4A5F69;
+  --color-wa: #25D366;
+
+  --font-display: "Bricolage Grotesque", "Avenir Next", "Trebuchet MS", system-ui, sans-serif;
+  --font-sans: "Figtree", "Segoe UI", system-ui, -apple-system, sans-serif;
+
+  --radius-card: 18px;
+  --animate-hero-zoom: heroZoom 18s ease-out forwards;
+  @keyframes heroZoom { from { transform: scale(1.06); } to { transform: scale(1); } }
+}
+
+@layer base {
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  body { @apply bg-arena text-tinta font-sans antialiased; font-size: 17px; line-height: 1.6; }
+  h1, h2, h3 { @apply font-display; line-height: 1.08; letter-spacing: -0.01em; text-wrap: balance; }
+  :focus-visible { outline: 3px solid var(--color-sol); outline-offset: 2px; }
+  [hidden] { display: none !important; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  }
+}
+
+@layer components {
+  .container-x { @apply mx-auto w-full max-w-[1160px] px-4 sm:px-6 lg:px-8; }
+  .section { @apply py-16 md:py-24; }
+  .eyebrow { @apply text-xs font-bold uppercase tracking-[0.14em] text-azul; }
+  .h2 { @apply text-[clamp(30px,4.6vw,44px)] font-extrabold; }
+
+  .btn { @apply inline-flex min-h-12 cursor-pointer items-center justify-center gap-2.5 rounded-[14px] border-0 px-5 py-3 text-base font-bold leading-tight no-underline transition active:translate-y-px disabled:cursor-not-allowed disabled:opacity-50; }
+  .btn svg { @apply size-5 shrink-0; }
+  .btn-sol { @apply bg-sol text-tinta shadow-[0_6px_18px_-8px_rgba(245,184,46,.9)] hover:bg-sol-l; }
+  .btn-azul { @apply bg-azul text-white hover:bg-azul-d; }
+  .btn-ghost { @apply border-[1.5px] border-solid border-linea bg-transparent text-tinta hover:bg-arena-2; }
+  .btn-wa { @apply min-h-14 w-full bg-wa text-[17px] text-tinta hover:bg-[#3BE07A]; }
+
+  .chip { @apply rounded-full bg-arena px-2.5 py-1.5 text-[13px] font-semibold leading-none text-tinta; }
+  .card { @apply rounded-3xl border border-linea bg-white; }
+
+  /* Foto "pendiente" */
+  .ph-empty { @apply grid place-items-center bg-gradient-to-br from-[#1C5FAE] to-turq text-[#F4ECDC]; }
+
+  /* Admin */
+  .adm-input { @apply w-full rounded-xl border-[1.5px] border-[#D5CAB4] bg-white px-3 py-2.5 text-[15px] text-tinta outline-none focus:border-azul focus:ring-4 focus:ring-azul/15; }
+  .adm-label { @apply mb-1 block text-[13px] font-bold text-tinta; }
+  .adm-card { @apply rounded-2xl border border-linea bg-white p-4 md:p-5; }
+  .adm-btn { @apply inline-flex items-center gap-2 rounded-xl px-3.5 py-2 text-sm font-bold transition disabled:opacity-50; }
+}
+
+/* ===== Hero ===== */
+.hero-shade::after {
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  background: linear-gradient(180deg, rgba(15,46,61,.55) 0%, rgba(15,46,61,.15) 30%, rgba(15,46,61,.35) 55%, rgba(15,46,61,.92) 100%);
+}
+@media (max-width: 640px) {
+  .hero-shade::after { background: linear-gradient(180deg, rgba(15,46,61,.75) 0%, rgba(15,46,61,.6) 40%, rgba(15,46,61,.92) 100%); }
+}
+.hero-text-shadow { text-shadow: 0 2px 18px rgba(8,24,32,.55); }
+
+/* ===== Calendario (react-day-picker) ===== */
+.hc-calendar .rdp-root {
+  --rdp-accent-color: var(--color-azul);
+  --rdp-accent-background-color: rgba(20,82,160,.12);
+  --rdp-day-height: 44px; --rdp-day-width: 44px;
+  --rdp-day_button-height: 40px; --rdp-day_button-width: 40px;
+  --rdp-range_middle-background-color: rgba(20,82,160,.12);
+  --rdp-range_middle-color: var(--color-tinta);
+  --rdp-range_start-date-background-color: var(--color-azul);
+  --rdp-range_end-date-background-color: var(--color-azul);
+  --rdp-today-color: var(--color-tinta);
+  --rdp-months-gap: 32px;
+  font-family: var(--font-sans);
+  margin: 0 auto;
+}
+.hc-calendar .rdp-month_caption { font-family: var(--font-display); font-weight: 700; text-transform: capitalize; }
+.hc-calendar .rdp-weekday { font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--color-muted); }
+.hc-calendar .rdp-day_button { font-weight: 600; font-variant-numeric: tabular-nums; }
+.hc-calendar .rdp-today:not(.rdp-range_start):not(.rdp-range_end) .rdp-day_button { box-shadow: inset 0 0 0 1.5px var(--color-sol); }
+.hc-calendar .hc-booked .rdp-day_button {
+  color: #97A3A8; text-decoration: line-through;
+  background: repeating-linear-gradient(135deg, #ECE6D8 0 4px, transparent 4px 8px);
+}
+.hc-calendar .rdp-disabled:not(.hc-booked) .rdp-day_button { color: #B5BFC3; }
+.hc-calendar .rdp-chevron { fill: var(--color-azul); }
+@media (max-width: 640px) {
+  .hc-calendar .rdp-root { --rdp-day-height: 42px; --rdp-day-width: calc((100vw - 56px) / 7); --rdp-day_button-width: 40px; }
+}

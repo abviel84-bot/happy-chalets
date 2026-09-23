@@ -73,22 +73,25 @@ Recomendación para el video de portada: MP4 (H.264), 1080p, de 20 a 40 segundos
 
 Los cambios de contenido se aplican con el botón **Guardar cambios**. La galería y las fechas ocupadas se guardan al instante.
 
-## 4. Publicar en GitHub Pages (lo más fácil)
+## 4. Publicar en GitHub Pages
 
-La carpeta **`docs/`** ya trae el sitio construido y conectado a Supabase.
+La página ya construida está en la **carpeta principal del repositorio** (fuera de `codigo/`).
 
-1. Sube **todo** el proyecto a un repositorio de GitHub (rama `main`).
-2. **Settings → Pages → Source: Deploy from a branch → `main` → carpeta `/docs` → Save.**
-3. En 1–2 minutos aparece el enlace.
+1. Sube todo el contenido del zip a tu repositorio (rama `main`).
+2. **Settings → Pages → Source: Deploy from a branch → `main` → `/ (root)` → Save.**
 
-Cuando cambies el código: `npm run build` (vuelve a generar `docs/`) y sube los cambios.
-
-> Alternativa automática: en Settings → Pages elige **GitHub Actions**; el archivo `.github/workflows/deploy.yml` construye y publica solo. Necesita los secrets `VITE_SUPABASE_URL` y `VITE_SUPABASE_ANON_KEY`.
+Después de cambiar el código:
+```bash
+cd codigo
+npm install        # solo la primera vez
+npm run publicar   # construye y copia la página a la carpeta principal
+```
+Luego sube los cambios a GitHub.
 
 ## 5. Publicar en Vercel o Netlify (opcional)
 
 1. Sube el proyecto a GitHub.
-2. En Vercel o Netlify: **New project** → elige el repositorio. Build command: `npm run build`. Output: `docs`.
+2. En Vercel o Netlify: **New project** → elige el repositorio. Root directory: `codigo`. Build command: `npm run build`. Output: `dist`.
 3. Agrega las variables `VITE_SUPABASE_URL` y `VITE_SUPABASE_ANON_KEY` en la configuración del proyecto.
 4. Conecta el dominio y actualiza `https://happychalets.com` en `index.html` (canonical, og:image y schema.org).
 5. En Supabase → **Authentication → URL Configuration**, pon el dominio en *Site URL*. Esto hace falta para que funcione "Olvidé mi contraseña".
@@ -105,7 +108,6 @@ src/
   booking/BookingModal    flujo de reserva de 5 pasos
   admin/                  login y panel (se carga solo cuando se abre)
 supabase/schema.sql       tablas, seguridad y bucket
-docs/                     sitio ya construido (lo que publica GitHub Pages)
 ```
 
 ## Notas
